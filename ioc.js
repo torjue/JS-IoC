@@ -14,7 +14,6 @@
 		};
 	
 		var getDependenciesFor = function(fn){
-		
 			var params = getParamNames(fn);
 			var args = [null];	
 			for (var i=0; i<params.length; i++) {
@@ -33,8 +32,7 @@
 			var args = getDependenciesFor(fn);
 			return new (Function.prototype.bind.apply(fn, args));
 		};
-		
-		
+				
 		var isBound = function(key) {
 			return key in bindings;
 		};
