@@ -29,6 +29,11 @@
 			return args;
 		};
 		
+		var createInstance = function(fn){
+			var args = getDependenciesFor(fn);
+			return new (Function.prototype.bind.apply(fn, args));
+		};
+		
 		
 		var isBound = function(key) {
 			return key in bindings;
@@ -37,10 +42,7 @@
 		var resolve = function(key){
 			var val = bindings[key];
 			if(typeof val === 'function'){
-				var fn = val;
-				var args = getDependenciesFor(fn);
-				var a = new (Function.prototype.bind.apply(fn, args));
-				return a;
+				return createInstance(val);
 			}
 			else {
 				return val;
@@ -52,8 +54,8 @@
 				to: function(value){
 					bindings[key] = value;
 				},
-				toSingleton: function(klass){
-					bindings[key] = new klass();
+				toSingleton: function(singleton){
+					bindings[key] = createInstance(singleton);
 				}
 			};
 		}
