@@ -1,7 +1,5 @@
 # JS IoC 
 
-Works, but doesn't do so well with minification...
-
     var Ioc = require("./ioc");
 
     var ioc = new Ioc();
@@ -28,3 +26,13 @@ Works, but doesn't do so well with minification...
 	
 	var person = ioc.resolve("person");
 	
+	
+
+Add the following to survive minification:
+
+	var Person = function(weapon, singleton, name){
+		this.name = name;
+		this.weapon = weapon;
+		this.singleton = singleton;
+	};
+	Person.$inject = ['weapon', 'singleton', 'name'];

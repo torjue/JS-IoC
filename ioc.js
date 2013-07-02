@@ -14,7 +14,7 @@
 		};
 	
 		var getDependenciesFor = function(fn){
-			var params = getParamNames(fn);
+			var params = fn.$inject === undefined ? getParamNames(fn): fn.$inject;
 			var args = [null];	
 			for (var i=0; i<params.length; i++) {
 				var match = resolve(params[i]);
