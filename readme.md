@@ -28,7 +28,7 @@
 	
 
 
-Add the following to survive minification:
+##### Add the following to survive minification:
 
 	var Person = function(weapon, singleton, name){
 		this.name = name;
@@ -36,3 +36,8 @@ Add the following to survive minification:
 		this.singleton = singleton;
 	};
 	Person.$inject = ['weapon', 'singleton', 'name'];
+
+
+
+### License
+MIT: [torjue.mit-license.org](http://torjue.mit-license.org)
