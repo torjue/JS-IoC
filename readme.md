@@ -1,8 +1,8 @@
-# JS IoC 
+# Subsumer.js
 
-    var Ioc = require("./ioc");
+    var Subsumer = require("./subsumer");
 
-    var ioc = new Ioc();
+    var ioc = new Subsumer();
 
 	var Person = function(weapon, singleton, name){
 		this.name = name;
@@ -26,7 +26,7 @@
 	
 	var person = ioc.resolve("person");
 	
-	
+
 
 Add the following to survive minification:
 

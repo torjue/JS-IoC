@@ -1,5 +1,5 @@
-var Ioc = require("./ioc");
-var ioc = new Ioc();
+var Subsumer = require("./subsumer");
+var ioc = new Subsumer();
 
 
 /* Define classes */

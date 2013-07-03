@@ -67,7 +67,7 @@
 	
 	// register for AMD module
 	if (typeof define === 'function' && define.amd) {
-	    define("ioc", ioc);
+	    define("subsumer", ioc);
 	}
 
 	// export for node.js
@@ -80,7 +80,7 @@
 	
 	// browser
 	if (typeof window !== 'undefined') {
-		window['ioc'] = ioc;
+		window['subsumer'] = ioc;
 	}
  	
 })();
