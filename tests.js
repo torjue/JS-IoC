@@ -52,3 +52,10 @@ x.singleton.name = "Yup!";
 /* And verify... */
 console.log(m);
 console.log(x);
+
+
+/* Testing dependency override */
+var q = ioc.use("name", "Henry").resolve("person");
+console.log(q);
+var v = ioc.resolve("person");
+console.log(v);

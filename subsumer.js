@@ -3,7 +3,8 @@
 	
 	var ioc = function(){
 	
-		var bindings = {};
+		var bindings = {},
+			originalBindings = {};
 	
 		var getParamNames = function(fn){
 		    var fnString = fn.toString();
@@ -45,23 +46,54 @@
 			else {
 				return val;
 			}
-		}
+		};
+
+		var resolveAfterUse = function(key){
+			var val = bindings[key];
+			var returnValue;
+			if(typeof val === 'function'){
+				returnValue = createInstance(val);
+			}
+			else {
+				returnValue = val;
+			}
+			for(var key in originalBindings){
+				bindings[key] = originalBindings[key];
+			} 
+			originalBindings = {};
+			return returnValue;
+		};
+
+		var use = function(key, value){
+			originalBindings[key] = bindings[key];
+			bindings[key] = value;
+			return {
+				resolve: resolveAfterUse,
+				use: use
+			};
+		};
 		
 		var bind = function(key){
 			return {
 				to: function(value){
 					bindings[key] = value;
+					return {
+						asSingleton: function(){
+							bindings[key] = createInstance(value);
+						}
+					}
 				},
 				toSingleton: function(singleton){
 					bindings[key] = createInstance(singleton);
 				}
 			};
-		}
+		};
 		
 		return {
 			resolve: resolve,
 			bind: bind,
-			isBound: isBound
+			isBound: isBound,
+			use: use
 		};
 	};
 	
