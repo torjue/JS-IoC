@@ -48,15 +48,8 @@
 			}
 		};
 
-		var resolveAfterUse = function(key){
-			var val = bindings[key];
-			var returnValue;
-			if(typeof val === 'function'){
-				returnValue = createInstance(val);
-			}
-			else {
-				returnValue = val;
-			}
+		var afterUse = function(fn, key){
+			var returnValue = fn(key);
 			for(var key in originalBindings){
 				bindings[key] = originalBindings[key];
 			} 
@@ -64,11 +57,21 @@
 			return returnValue;
 		};
 
+		var instantiate = function(fn){
+			if(typeof fn === 'function'){
+				return createInstance(fn);
+			}
+			else {
+				return fn;
+			}
+		};
+
 		var use = function(key, value){
 			originalBindings[key] = bindings[key];
 			bindings[key] = value;
 			return {
-				resolve: resolveAfterUse,
+				resolve: function(key){ return afterUse(resolve, key) },
+				instantiate: function(fn){ return afterUse(instantiate, fn) },
 				use: use
 			};
 		};
@@ -93,7 +96,8 @@
 			resolve: resolve,
 			bind: bind,
 			isBound: isBound,
-			use: use
+			use: use,
+			instantiate: instantiate
 		};
 	};
 	

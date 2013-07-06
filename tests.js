@@ -59,3 +59,7 @@ var q = ioc.use("name", "Henry").resolve("person");
 console.log(q);
 var v = ioc.resolve("person");
 console.log(v);
+
+/* testing instantiate */
+var v = ioc.use("name", "Philip").instantiate(Person);
+console.log(v);
