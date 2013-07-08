@@ -1,0 +1,26 @@
+{
+  "name": "Subsumer.js",
+  "version": "0.5.0",
+  "description": "Lightweight IoC for JavaScript applications",
+  "main": "Subsumer.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/torjue/Subsumer.js.git"
+  },
+  "keywords": [
+    "ioc",
+    "di"
+  ],
+  "author": "Torjus Eidet",
+  "license": "MIT",
+  "readmeFilename": "readme.md",
+  "bugs": {
+    "url": "https://github.com/torjue/Subsumer.js/issues"
+  },
+  "devDependencies": {
+    "grunt": "~0.4.1",
+    "grunt-contrib-jshint": "~0.6.0",
+    "grunt-contrib-uglify": "~0.2.2",
+    "grunt-contrib-concat": "~0.3.0"
+  }
+}

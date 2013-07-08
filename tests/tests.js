@@ -1,4 +1,4 @@
-var Subsumer = require("./subsumer");
+var Subsumer = require("./../src/subsumer");
 var ioc = new Subsumer();
 
 
@@ -63,3 +63,12 @@ console.log(v);
 /* testing instantiate */
 var v = ioc.use("name", "Philip").instantiate(Person);
 console.log(v);
+
+
+/* to function test */
+var func = function(){ console.log("funct"); };
+ioc.bind("fntest").toFunction(func);
+
+var jq = ioc.resolve("fntest");
+console.log(jq);
+jq();

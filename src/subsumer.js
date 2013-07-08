@@ -1,20 +1,29 @@
-;(function(undefined) {
+(function(undefined) {
 	"use strict";
 	
 	var ioc = function(){
 	
 		var bindings = {},
-			originalBindings = {};
+			originalBindings = {},
+			getParamNames,
+			getDependenciesFor,
+			createInstance,
+			isBound,
+			resolve,
+			afterUse,
+			instantiate,
+			use,
+			bind;
 	
-		var getParamNames = function(fn){
-		    var fnString = fn.toString();
-		    return fnString.match(/\(.*?\)/)[0]
-		    		.replace(/[()]/gi,'')
-		    		.replace(/\s/gi,'')
-		    		.split(',');
+		getParamNames = function(fn){
+			var fnString = fn.toString();
+			return fnString.match(/\(.*?\)/)[0]
+					.replace(/[()]/gi,'')
+					.replace(/\s/gi,'')
+					.split(',');
 		};
 	
-		var getDependenciesFor = function(fn){
+		getDependenciesFor = function(fn){
 			var params = fn.$inject === undefined ? getParamNames(fn): fn.$inject;
 			var args = [null];	
 			for (var i=0; i<params.length; i++) {
@@ -29,16 +38,16 @@
 			return args;
 		};
 		
-		var createInstance = function(fn){
+		createInstance = function(fn){
 			var args = getDependenciesFor(fn);
-			return new (Function.prototype.bind.apply(fn, args));
+			return new (Function.prototype.bind.apply(fn, args))();
 		};
 				
-		var isBound = function(key) {
+		isBound = function(key) {
 			return key in bindings;
 		};
 		
-		var resolve = function(key){
+		resolve = function(key){
 			var val = bindings[key];
 			if(typeof val === 'function'){
 				return createInstance(val);
@@ -48,16 +57,18 @@
 			}
 		};
 
-		var afterUse = function(fn, key){
+		afterUse = function(fn, key){
 			var returnValue = fn(key);
-			for(var key in originalBindings){
-				bindings[key] = originalBindings[key];
+			for(var k in originalBindings){
+				if (originalBindings.hasOwnProperty(k)) {
+					bindings[k] = originalBindings[k];
+				}
 			} 
 			originalBindings = {};
 			return returnValue;
 		};
 
-		var instantiate = function(fn){
+		instantiate = function(fn){
 			if(typeof fn === 'function'){
 				return createInstance(fn);
 			}
@@ -66,28 +77,34 @@
 			}
 		};
 
-		var use = function(key, value){
+		use = function(key, value){
 			originalBindings[key] = bindings[key];
 			bindings[key] = value;
 			return {
-				resolve: function(key){ return afterUse(resolve, key) },
-				instantiate: function(fn){ return afterUse(instantiate, fn) },
+				resolve: function(key){ return afterUse(resolve, key); },
+				instantiate: function(fn){ return afterUse(instantiate, fn); },
 				use: use
 			};
 		};
 		
-		var bind = function(key){
+		bind = function(key){
 			return {
 				to: function(value){
 					bindings[key] = value;
 					return {
 						asSingleton: function(){
 							bindings[key] = createInstance(value);
+						},
+						asFunction: function(){
+							bindings[key] = function(){ return value; };
 						}
-					}
+					};
 				},
 				toSingleton: function(singleton){
 					bindings[key] = createInstance(singleton);
+				},
+				toFunction: function(fn){
+					bindings[key] = function(){ return fn; };
 				}
 			};
 		};
@@ -101,9 +118,10 @@
 		};
 	};
 	
+	/* global exports:true, window:true, module:true, define:true */
 	// register for AMD module
 	if (typeof define === 'function' && define.amd) {
-	    define("subsumer", ioc);
+		define("subsumer", ioc);
 	}
 
 	// export for node.js
@@ -116,7 +134,7 @@
 	
 	// browser
 	if (typeof window !== 'undefined') {
-		window['subsumer'] = ioc;
+		window.subsumer = ioc;
 	}
- 	
+	/* global exports:false, window:false, module:false, define:false */
 })();
