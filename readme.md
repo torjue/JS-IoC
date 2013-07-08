@@ -1,6 +1,6 @@
-# Subsumer.js
+# subsumer.js
 
-    var Subsumer = require("./subsumer");
+    var Subsumer = require("subsumer");
 
     var ioc = new Subsumer();
 

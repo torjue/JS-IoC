@@ -1,10 +1,5 @@
 'use strict';
 
-var grunt = require('grunt');
-var Subsumer = require("./../src/subsumer");
-
-
-
 /* Define classes */
 var Person = function(weapon, singleton, name){
 	this.name = name;
@@ -26,6 +21,7 @@ var Singleton = function(){
 exports.subsumer = {
 
 	setUp: function(callback){
+		var Subsumer = require("./../src/subsumer");
 		this.container = new Subsumer();
 		/* Bind things up */
 		this.container.bind("name").to("Normann");

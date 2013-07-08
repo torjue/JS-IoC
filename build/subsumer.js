@@ -1,4 +1,4 @@
-/*! Subsumer.js - v0.5.0 - 2013-07-08 - http://torjue.mit-license.org */
+/*! subsumer.js - v0.5.0 - 2013-07-09 - http://torjue.mit-license.org */
 (function(undefined) {
 	"use strict";
 	
