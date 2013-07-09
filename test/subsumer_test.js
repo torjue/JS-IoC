@@ -53,8 +53,8 @@ exports.subsumer = {
 		test.expect(2);
 		var instance_WithUse = this.container.use("name", "Jones").instantiate(Person);
 		var instance_AfterUse_WithoutUse = this.container.instantiate(Person);
-		test.equals(instance_WithUse.name, "Jones");
-		test.equals(instance_AfterUse_WithoutUse.name, "Normann");
+		test.equal(instance_WithUse.name, "Jones");
+		test.equal(instance_AfterUse_WithoutUse.name, "Normann");
 		test.done();
 	},
 
@@ -70,7 +70,7 @@ exports.subsumer = {
 		test.done();
 	},
 
-	'singleton': function(test){
+	singleton: function(test){
 		test.expect(2);
 		var firstInstance = this.container.resolve("singleton");
 		firstInstance.name = "modified";
